@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <title>Child Chat</title>
+</head>
+
+<body>
+  <h1>Chat section!</h1>
+  <form id="chat-form">
+    <input type="text" name="chat-box" id="chat-box" />
+    <button type="submit" name="send-chat" id="send-chat">Send</button>
+  </form>
+  <ul id="chat-content">
+    <li>This</li>
+    <li>Clearly</li>
+    <li>Doesn't</li>
+    <li>Work</li>
+  </ul>
+  <script type="module" src="child.js"></script>
+</body>
+
+</html>

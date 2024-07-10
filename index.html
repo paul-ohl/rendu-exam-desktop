@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <title>The Chat</title>
+</head>
+
+<body>
+  <h1>Chat!</h1>
+  <select id="user-id">
+    <option value="0">Users loading...</option>
+  </select>
+  <button id="login">Login</button>
+
+  <hr />
+
+  <select id="chat-select">
+    <option value="0">Chats loading...</option>
+  </select>
+  <button id="open-in-new-window">Open in new window</button>
+  <form id="chat-form">
+    <input type="text" name="chat-box" id="chat-box" />
+    <button type="submit" name="send-chat" id="send-chat">Send</button>
+  </form>
+  <ul id="chat-content">
+  </ul>
+  <script type="module" src="init.js"></script>
+</body>
+
+</html>
