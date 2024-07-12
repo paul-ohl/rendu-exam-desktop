@@ -75,7 +75,7 @@ ipcMain
     });
   });
 
-ipcMain.handle('is-window-focused', (_e) => mainWindow.isVisible());
+ipcMain.handle('is-window-focused', (_e) => true);
 
 ipcMain.handle('get-users', () => users);
 ipcMain.handle('get-user-by-id', (_e, userId) => users.find((user) => user.id == userId));
