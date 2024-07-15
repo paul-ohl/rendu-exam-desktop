@@ -75,6 +75,16 @@ ipcMain
     });
   });
 
+ipcMain
+  .handle('get-chat-content', (_e, convId) => {
+    return new Promise((resolve, _reject) => {
+      socket.emit(`get-conversation-${convId}`)
+      socket.on(`get-conversation-${convId}`, (conversation) => {
+        resolve(conversation.content);
+      });
+    });
+  });
+
 ipcMain.handle('is-window-focused', (_e) => true);
 
 ipcMain.handle('get-users', () => users);

@@ -11,6 +11,10 @@ contextBridge.exposeInMainWorld('api', {
   getUserById: (id) => {
     return ipcRenderer.invoke('get-user-by-id', id);
   },
+  getChatContent: () => {
+    const chatSelected = document.getElementById('chat-select').value;
+    return ipcRenderer.invoke('get-chat-content', chatSelected);
+  },
   sendMessage: () => {
     const userId = document.getElementById('user-id').value;
     const chatBox = document.getElementById('chat-box');
@@ -21,6 +25,9 @@ contextBridge.exposeInMainWorld('api', {
   openChatInNewWindow: () => {
     const chatSelected = document.getElementById('chat-select').value;
     ipcRenderer.send('open-chat-in-new-window', chatSelected);
+  },
+  createChatMessage: (message, senderId) => {
+    createChatMessage(message, senderId)
   }
 })
 
@@ -47,3 +54,14 @@ ipcRenderer.on('new-message', async (_e, chatId, message, senderId) => {
     }
   });
 })
+
+async function createChatMessage(message, senderId) {
+  const currentUserId = document.getElementById('user-id').value;
+  const sender = await ipcRenderer.invoke('get-user-by-id', senderId);
+  console.log(senderId, sender);
+  const senderName = (currentUserId == senderId) ? "You" : sender.name;
+  const chatBox = document.getElementById('chat-content');
+  const newMessage = document.createElement('li');
+  newMessage.innerText += `${senderName}: ${message}\n`;
+  chatBox.append(newMessage);
+}

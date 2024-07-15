@@ -29,14 +29,24 @@ document.getElementById('login').addEventListener('click', async (_e) => {
     option.innerText = innerText;
     return option;
   }));
+  getChatContent();
 })
 
 document.getElementById('chat-select').addEventListener('change', (_e) => {
-  const chatBox = document.getElementById('chat-content');
-  chatBox.innerHTML = '';
+  getChatContent();
 })
 
 document.getElementById('open-in-new-window').addEventListener('click', (_e) => {
   window.open('./childWindows/child.html', '', 'width=1280,height=720');
   window.api.openChatInNewWindow();
 })
+
+function getChatContent() {
+  const chatBox = document.getElementById('chat-content');
+  chatBox.innerHTML = '';
+  window.api.getChatContent().then(async (chatContent) => {
+    for (const message of chatContent) {
+      window.api.createChatMessage(message.message, message.sender);
+    }
+  });
+}

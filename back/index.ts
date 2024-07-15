@@ -17,19 +17,21 @@ const conversations = [
     { id: 6, interlocutors: [1, 2, 3, 4], }
 ];
 
+const conversationMessages = [
+    { id: 1, content: [{ sender: 1, message: 'Hello!' }, { sender: 4, message: 'Hi!' }], },
+    { id: 4, content: [{ sender: 1, message: 'What is this new app?' }, { sender: 3, message: 'I dont know but it looks pretty cool' }], },
+];
+
 io.on('connection', (socket: any) => {
 
     io.emit('user-list', users);
-    // // Return user list
-    // socket.on('get-users', () => {
-    //     io.emi
-    // })
 
     // Allows users to interact with the server
     for (const user of users) {
         socket.on(`order-${user.id}`, (order: string) => {
             console.log(`${user.name} ordered ${order}.`);
             switch (order) {
+                // Get chat list
                 case 'chats':
                     let userConversations = conversations
                         .filter((conv) => conv.interlocutors.includes(user.id))
@@ -52,8 +54,18 @@ io.on('connection', (socket: any) => {
 
     // The sockets for conversations
     for (const conversation of conversations) {
+        socket.on(`get-conversation-${conversation.id}`, () => {
+            io.emit(`get-conversation-${conversation.id}`, conversationMessages.find((cm) => cm.id === conversation.id));
+        });
         socket.on(`conversation-${conversation.id}`, (msg: any, sender: any) => {
             console.log(`${sender} sent ${msg} in conversation ${conversation.id}`);
+            // Save the message
+            const conv = conversationMessages.find((cm) => cm.id === conversation.id);
+            if (conv) {
+                conv.content.push({ sender, message: msg });
+            } else {
+                conversationMessages.push({ id: conversation.id, content: [{ sender, message: msg }] });
+            }
             io.emit(`conversation-${conversation.id}`, msg, sender);
         });
     }
