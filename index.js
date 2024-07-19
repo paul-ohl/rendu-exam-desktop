@@ -80,7 +80,7 @@ ipcMain
     return new Promise((resolve, _reject) => {
       socket.emit(`get-conversation-${convId}`)
       socket.on(`get-conversation-${convId}`, (conversation) => {
-        resolve(conversation.content);
+        resolve(conversation ? conversation.content : null);
       });
     });
   });
