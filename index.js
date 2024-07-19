@@ -7,7 +7,7 @@ const NOTIFICATION_TITLE = 'Whysapp';
 
 const { ipcMain, webContents, Notification } = require('electron');
 const io = require('socket.io-client');
-const socket = io(`http://localhost:3000`);
+const socket = io(`http://paulohl.fr:3000`);
 
 let users = [];
 
